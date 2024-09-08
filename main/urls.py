@@ -1,9 +1,10 @@
-from django.urls import path
-from django.http import HttpResponse
-from .views import *
+from django.urls import path, reverse
+from django.shortcuts import HttpResponseRedirect
+from .views import home
 
 app_name = 'main'
 
 urlpatterns = [
-    path('', lambda request: HttpResponse('Hello, World!'), dict()),
+    path('', lambda request: HttpResponseRedirect(reverse('main:home')), name='default'),
+    path('home', home, name='home'),
 ]
