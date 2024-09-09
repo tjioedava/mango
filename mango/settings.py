@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2v+262ot^hd)&tk2-rbynp=cya!v$ahpw7au=h1l)x@)8nqkn9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'dava-hannas-mango.pbp.cs.ui.ac.id']
 
 # Application definition
 
