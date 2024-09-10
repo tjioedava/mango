@@ -35,5 +35,27 @@ Link = http://dava-hannas-mango.pbp.cs.ui.ac.id/
         > Add web application link to ALLOWED_HOST in settings.py to let the third party service serve the project.
         > Push commits in git local repository to PWS remote.
         > PWS will build and serve the project, providing a domain service for the project, thus the web application can be accessed via internet.
+    
+2. Referring to client-request-flow.png, these are how application's urls.py, views.py, models.py, and templates interact with each other. 
+
+Whenever there is an incoming request to the application, application's urls.py will route the request based on the URL request path using regular expression, mapping the path to assigned handler functions, either anonymous or defined in views.py. 
+
+Usually in views.py, functions defined interact with the models in models.py. Possible interactions are: creation, retreival, update, and deletion. The model defined in models.py acts as a class representation of a table in database, while each model instance represents the row or entry. Django provides a way to manipulate database through the model class and instance methods as a way of query encapsulation (one of the main reason is to prevent SQL injection). This way, we can manipulate the database from views.py.
+
+HTML files in templates directory is used to return a HTTP response back to client. HTML files usually contain dynamic content, dependent to values that are defined in context dictionary. Views.py interact with HTML files through render function that fetches a HTML and combine it with pairs of key:value that acts as a context to fill in the dynamic content.
+
+3. Git acts as a version controller, that tracks changes or updates in developer's project. With git, a developer can easily create a new project version, rollback to previous version, and safely experiment with current version without the fear of messing the current project.
+
+Git's cloud counterpart, eg. GitHub and GitLab, acts as a cloud based platform based on git, streches the scope and functionality of git beyond mere local machine, that enables developer to collaborate with another developer and save the project remotely.
+
+4. Django framework is chosen for PBP course since Fasilkom 2023 students are already familiar with Python, a programming language that drives the framework. Other framework not driven by python programming language, eg. Laravel that uses PHP, might introduce unecessary learning curve variable, since students need to learn PHP as well in the process. Spring framework, although using Java, which has been taught during the second semester, might not be as suitable as Django, since Django has more managable learning curve for Fasilkom 2023 students. Another Django superiority is its pupolarity. Based on blog.jetbrains.com/pycharm/2024/06/the-state-of-django/ blog, 74% of web developers use Django as their web framework.
+
+5. Django models are termed as ORM (Object Relational Mapping) due to the fact that Django uses python OOP to encapsulate or represent the database tables and rows / entries. Django models also allow developer to manipulate the database programmatically from the project instead of from direct SQL queries to the middleware, making it essentially an ORM.
+
+
+
+
+
+
 
 
