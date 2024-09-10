@@ -40,7 +40,7 @@ Link = http://dava-hannas-mango.pbp.cs.ui.ac.id/
 
 Whenever there is an incoming request to the application, application's urls.py will route the request based on the URL request path using regular expression, mapping the path to assigned handler functions, either anonymous or defined in views.py. 
 
-Usually in views.py, functions defined interact with the models in models.py. Possible interactions are: creation, retreival, update, and deletion. The model defined in models.py acts as a class representation of a table in database, while each model instance represents the row or entry. Django provides a way to manipulate database through the model class and instance methods as a way of query encapsulation (one of the main reason is to prevent SQL injection). This way, we can manipulate the database from views.py.
+Usually in views.py, functions defined interact with the models in models.py. Possible interactions are: creation, retreival, update, and deletion. The model defined in models.py acts as a class representation of a table in database, while each model instance represents the row or entry. Django provides a way to manipulate database through the model class and instance methods as a way of query encapsulation (one of the main reason is to prevent SQL injection). This way, one can manipulate the database from views.py.
 
 HTML files in templates directory is used to return a HTTP response back to client. HTML files usually contain dynamic content, dependent to values that are defined in context dictionary. Views.py interact with HTML files through render function that fetches a HTML and combine it with pairs of key:value that acts as a context to fill in the dynamic content.
 
