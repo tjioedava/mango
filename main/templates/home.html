@@ -1,26 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+{% block meta %}
+    <title>Mango - Home</title>
+{% endblock meta %}
 
-    <title>Mango</title>
-</head>
-<body>
-    <header>
-        <h1>Mango E-Commerce</h1>
-        <hr>
-    </header>
-    
-    <main>
-        <div>
-            Developer: Dava Hannas Putra
-            <br>
-            Class: PBP E
-        </div>
-    </main>
-    
-</body>
-</html>
+{% block header %}
+    <h1>Mango E-Commerce</h1>
+    <hr>
+{% endblock header %}
+
+{% block content %}
+    <div>
+        Developer: Dava Hannas Putra
+        <br>
+        Class: PBP E
+    </div>
+    <a href="{% url 'main:create-product' %}">Create a Product</a>
+
+    <hr>
+    {% if products %}
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Price</td>
+            </tr>
+
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No product has been created</p>
+    {% endif %}
+        
+{% endblock content %}
