@@ -21,16 +21,16 @@
     {% if products %}
         <table>
             <tr>
-                <td>ID</td>
                 <td>Name</td>
                 <td>Price</td>
+                <td>Description</td>
             </tr>
 
             {% for product in products %}
                 <tr>
-                    <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
+                    <td>{{ product.description }}</td>
                 </tr>
             {% endfor %}
         </table>

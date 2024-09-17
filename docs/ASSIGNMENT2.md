@@ -39,7 +39,7 @@
     
 2. Referring to client-request-flow.png, these are how application's urls.py, views.py, models.py, and templates interact with each other. 
 
-    ![Client Request Flow](client-request-flow.png)
+    ![Client Request Flow](/res/images/client-request-flow.png)
 
     Whenever there is an incoming request to the application, application's urls.py will route the request based on the URL request path using regular expression, mapping the path to assigned handler functions, either anonymous or defined in views.py. 
 
