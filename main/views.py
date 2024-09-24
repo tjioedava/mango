@@ -12,7 +12,7 @@ from .models import Product
 
 @login_required(login_url='/log-in')
 def home(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(user=request.user)
 
     return render(request, 'home.html', {
         'products': products,
@@ -24,7 +24,9 @@ def create_product(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
             return redirect('main:home')
 
     return render(request, 'create-product.html', {
@@ -39,9 +41,10 @@ def show_products(request):
     if format not in ['json', 'xml']:
         raise Http404()
 
-    products = Product.objects.all()
+    products = Product.objects.filter(user=request.user)
     return HttpResponse(serialize(format, products), content_type=f'application/{format}')
 
+@login_required(login_url='/log-in')
 def show_product_by_id(request, pk):
 
     format = request.GET.get('format', 'json')
@@ -49,7 +52,7 @@ def show_product_by_id(request, pk):
     if format not in ['json', 'xml']:
         raise Http404()
     
-    products = Product.objects.filter(pk=pk)
+    products = Product.objects.filter(user=request.user, pk=pk)
 
     if not products:
         return HttpResponse(f'Product with id {pk} does not exist')
