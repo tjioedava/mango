@@ -9,12 +9,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProductForm
 from .models import Product
+import datetime
 
 @login_required(login_url='/log-in')
 def home(request):
     products = Product.objects.filter(user=request.user)
 
+    last_log_in = request.COOKIES['last_log_in']
+    point_index = last_log_in.find('.')
+    last_log_in = last_log_in[0: point_index]
+
     return render(request, 'home.html', {
+        'username': request.user.username,
+        'last_log_in': last_log_in,
         'products': products,
     })
 
@@ -89,7 +96,9 @@ def log_in(request):
             if user is not None: 
                 login(request, user)
                 #return to the url embedded by login_required decorator or home url
-                return HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
+                response = HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
+                response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
+                return response
             
         messages.error(request, 'Empty or incorrect credentials!')
 
@@ -100,4 +109,6 @@ def log_in(request):
 @require_http_methods(['POST',])
 def log_out(request):
     logout(request)
-    return redirect('main:log-in')
+    response = redirect('main:log-in')
+    response.delete_cookie('last_log_in')
+    return response

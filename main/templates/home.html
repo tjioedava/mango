@@ -10,11 +10,9 @@
 {% endblock header %}
 
 {% block content %}
-    <div>
-        Developer: Dava Hannas Putra
-        <br>
-        Class: PBP E
-    </div>
+    <h4>Welcome, {{ username }}</h4>
+    <p>Last log in: {{ last_log_in }}</p>
+    
     <a href="{% url 'main:create-product' %}">Create a Product</a>
 
     <hr>
