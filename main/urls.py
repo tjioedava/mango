@@ -10,4 +10,7 @@ urlpatterns = [
     path('create-product', create_product, name='create-product'),
     path('show-products', show_products, name='show-products'),
     path('show-product-by-id/<str:pk>', show_product_by_id, name='show-product-by-id'),
+    path('register', register, name='register'),
+    path('log-in', log_in, name='log-in'),
+    path('log-out', log_out, name='log-out'),
 ]

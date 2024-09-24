@@ -37,5 +37,10 @@
     {% else %}
         <p>No product has been created</p>
     {% endif %}
+
+    <form method="POST" action="{% url 'main:log-out' %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
         
 {% endblock content %}

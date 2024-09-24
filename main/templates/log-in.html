@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Mango - Log In</title>
+{% endblock meta %}
+
+{% block header %}
+    <h1>Log In</h1>
+    <hr>
+{% endblock header %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td><button type="submit">Log In</button></td>
+            </tr>
+        </table>
+        <p>Don't have any account? Register <a href="{% url 'main:register' %}">here</a>.</p>
+    </form>
+{% endblock content %}
