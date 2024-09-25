@@ -14,7 +14,7 @@
 
     By connecting `Product` to `User`, it creates a notion that products are clustered based on certain user belonging, thus the CRUD operation for users are limited to instances that they belong only. 
 
-    The process of connecting `Product` and `User` starts by modifying django models ORM, defining additional attribute for `Product` model, user, which is a `ForeignKey` that uses `User` as the foreign key model. The delete operation of the field will be `models.CASCADE`, meaning that a deletion of certain `User` instance will delete every `Product` instance whose foreign key refers to that `User` instance. After modifying the ORM, make the migrations schema and apply the migration to the database.
+    The process of connecting `Product` and `User` starts by modifying Django models ORM, defining additional attribute for `Product` model, user, which is a `ForeignKey` that uses `User` as the foreign key model. The delete operation of the field will be `models.CASCADE`, meaning that a deletion of certain `User` instance will delete every `Product` instance whose foreign key refers to that `User` instance. After modifying the ORM, make the migrations schema and apply the migration to the database.
 
     In `views.py`, we will modify the logic of showing `Products`. Instead of showing all entries of `Product`, we will only show the entries that belong to current client, thus limiting the scope of CRUD operations to those belonging to current client. This is possible using `filter` method in `Product.models`.   
 
