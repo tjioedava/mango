@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
@@ -41,12 +41,40 @@ def create_product(request):
     })
 
 @login_required(login_url='/log-in')
+def edit_product(request, pk):
+    products = Product.objects.filter(user=request.user, id=pk)
+    if len(products) == 0:
+        return HttpResponseNotFound()
+    product = products[0]
+    form = ProductForm(request.POST or None, instance=product)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+
+    return render(request, 'edit-product.html', {
+        'form': form,
+    })
+
+@require_http_methods(['POST',])
+def delete_product(request, pk):
+    products = Product.objects.filter(user=request.user, id=pk)
+    if len(products) == 0:
+        return HttpResponseNotFound()
+    
+    product = products[0]
+
+    product.delete()
+    return redirect('main:home')
+
+@login_required(login_url='/log-in')
 def show_products(request):
 
     format = request.GET.get('format', 'json')
 
     if format not in ['json', 'xml']:
-        raise Http404()
+        return HttpResponseNotFound()
 
     products = Product.objects.filter(user=request.user)
     return HttpResponse(serialize(format, products), content_type=f'application/{format}')
@@ -57,7 +85,7 @@ def show_product_by_id(request, pk):
     format = request.GET.get('format', 'json')
 
     if format not in ['json', 'xml']:
-        raise Http404()
+        return HttpResponseNotFound()
     
     products = Product.objects.filter(user=request.user, pk=pk)
 

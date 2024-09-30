@@ -11,27 +11,15 @@
     {% endblock meta %}
 </head>
 <body>
-    <header>
-        {% block header %}
-        {% endblock header %}
-    </header>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-    <main>
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        {% block content %}
-        {% endblock content %}
-    </main>
-    
-    <footer>
-        {% block footer %}
-        {% endblock footer %}
-    </footer>
+    {% block content %}
+    {% endblock content %}
 </body>
 </html>

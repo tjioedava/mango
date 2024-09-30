@@ -4,12 +4,9 @@
     <title>Mango - Log In</title>
 {% endblock meta %}
 
-{% block header %}
+{% block content %}
     <h1>Log In</h1>
     <hr>
-{% endblock header %}
-
-{% block content %}
     <form method="POST">
         {% csrf_token %}
         <table>

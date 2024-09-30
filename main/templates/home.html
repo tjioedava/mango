@@ -4,12 +4,10 @@
     <title>Mango - Home</title>
 {% endblock meta %}
 
-{% block header %}
+{% block content %}
+
     <h1>Mango E-Commerce</h1>
     <hr>
-{% endblock header %}
-
-{% block content %}
     <h4>Welcome, {{ username }}</h4>
     <p>Last log in: {{ last_log_in }}</p>
     
@@ -22,6 +20,8 @@
                 <td>Name</td>
                 <td>Price</td>
                 <td>Description</td>
+                <td></td>
+                <td></td>
             </tr>
 
             {% for product in products %}
@@ -29,6 +29,11 @@
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.description }}</td>
+                    <td><a href="{% url 'main:edit-product' product.id %}"><button>Edit</button></a></td>
+                    <td><form action="{% url 'main:delete-product' product.id %}" method="POST">
+                        {% csrf_token %}
+                        <button>Delete</button>
+                    </form></td>
                 </tr>
             {% endfor %}
         </table>

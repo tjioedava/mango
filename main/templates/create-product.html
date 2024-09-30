@@ -4,19 +4,17 @@
     <title>Mango - Create Product</title>
 {% endblock meta %}
 
-{% block header %}
+{% block content %}
+
     <h1>Create Product</h1>
     <hr>
-{% endblock header %}
-
-{% block content %}
     <form method="POST">
         {% csrf_token %}
         <table>
             {{ form.as_table }}
             <tr>
                 <td></td>
-                <td><button>Submit</button></td>
+                <td><button>Create</button></td>
             </tr>
         </table>
     </form>
