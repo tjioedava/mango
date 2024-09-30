@@ -20,7 +20,6 @@ def home(request):
     last_log_in = last_log_in[0: point_index]
 
     return render(request, 'home.html', {
-        'username': request.user.username,
         'last_log_in': last_log_in,
         'products': products,
     })

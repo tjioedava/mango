@@ -1,0 +1,37 @@
+<div class="navigation-bar">
+    <div class="navigation-title">
+        Mango E-Commerce
+    </div>
+    <div class="navigation-home navigation-buttons" data-href="{% url 'main:home' %}">
+        Home
+    </div>
+    <div class="navigation-cart navigation-buttons" data-href="">
+        Cart
+    </div>
+    <div class="navigation-products navigation-buttons" data-href="">
+        My Products
+    </div>
+    <div class="navigation-profile navigation-buttons" data-href="">
+        Profile
+    </div>
+    <div class="navigation-welcome">
+        Welcome, {{ user.username }}
+    </div>
+    <div class="navigation-log-out" data-href="{% url 'main:log-out' %}">
+        Log out
+    </div>
+</div>
+<form id="request-form" method="POST">{% csrf_token %}</form>
+
+<script>
+    document.querySelector('.navigation-home').addEventListener('click', function(){
+        window.location.href = this.getAttribute('data-href')
+    });
+
+    document.querySelector('.navigation-log-out').addEventListener('click', function(){
+        var action = this.getAttribute('data-href')
+        var form = document.querySelector('#request-form')
+        form.setAttribute('action', action);
+        form.submit()
+    });
+</script>

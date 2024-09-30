@@ -3,16 +3,14 @@
 
 {% block meta %}
     <title>Mango - Home</title>
-    <link rel="stylesheet" href="{% static 'css/main/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/templates/navigation-bar.css' %}">
     <link rel="stylesheet" href="{% static 'css/main/product-card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main/home.css' %}">
 {% endblock meta %}
 
 {% block content %}
 
-    <h1>Mango E-Commerce</h1>
-    <hr>
-    <h4>Welcome, {{ username }}</h4>
-    <p>Last log in: {{ last_log_in }}</p>
+    {% include 'navigation-bar.html' %}
     
     <a href="{% url 'main:create-product' %}">Create a Product</a>
 

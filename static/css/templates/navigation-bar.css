@@ -1,0 +1,46 @@
+.navigation-bar{
+    background-color: #1f2937;
+    color: #e1e1e1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 11vh;
+}
+
+.navigation-bar div{
+    display: flex;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.navigation-title{
+    font-size: large;
+    font-weight: bold;
+}
+
+.navigation-title, .navigation-welcome{
+    width: 15vw;
+}
+
+.navigation-buttons, .navigation-log-out{
+    width: 12vw;
+    height: 70%;
+    border-radius: 4px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.navigation-welcome{
+    justify-content: right;
+}
+
+.navigation-log-out{
+    background-color: #ef4444;
+}
+
+.navigation-buttons:hover{
+    background-color: #384557;
+}
+

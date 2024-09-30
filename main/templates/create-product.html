@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block meta %}
     <title>Mango - Create Product</title>
+    <link rel="stylesheet" href="{% static 'css/templates/navigation-bar.css' %}">
 {% endblock meta %}
 
 {% block content %}
 
+    {% include 'navigation-bar.html' %}
     <h1>Create Product</h1>
     <hr>
     <form method="POST">
