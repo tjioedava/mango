@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block meta %}
     <title>Mango - Home</title>
+    <link rel="stylesheet" href="{% static 'css/main/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main/product-card.css' %}">
 {% endblock meta %}
 
 {% block content %}
@@ -14,32 +17,22 @@
     <a href="{% url 'main:create-product' %}">Create a Product</a>
 
     <hr>
-    {% if products %}
-        <table>
-            <tr>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Description</td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.description }}</td>
-                    <td><a href="{% url 'main:edit-product' product.id %}"><button>Edit</button></a></td>
-                    <td><form action="{% url 'main:delete-product' product.id %}" method="POST">
-                        {% csrf_token %}
-                        <button>Delete</button>
-                    </form></td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>No product has been created</p>
-    {% endif %}
+    <div class="products-container">
+        <div class="title-container"><h2>Products</h2></div>
+        {% if products %}
+            <div class="products-grid"> 
+                
+                {% for product in products %}
+                    {% include 'product-card.html' with product=product %} 
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-product">
+                <img src="{% static 'images/empty-cardboard.png' %}" alt="Empty Cardboard"/>
+                <p>No product has been created.</p>
+            </div>
+        {% endif %}
+    </div>
 
     <form method="POST" action="{% url 'main:log-out' %}">
         {% csrf_token %}

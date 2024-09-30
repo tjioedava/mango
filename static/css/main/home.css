@@ -1,0 +1,30 @@
+.products-container{
+    background-color: #edd377;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.products-grid, .no-product{
+    background-color: #ffedbd;
+    border-radius: 10px;
+    width: 96%;
+    margin: 0% 2% 2% 2%;
+}
+
+.products-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.no-product{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.no-product img{
+    height: 150px;
+    width: 150px;
+}
+
