@@ -1,0 +1,55 @@
+main, .product-form-container, .product-form-form-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main{
+    height: 89vh;
+    justify-content: center;
+}
+
+.product-form-container{
+    color: white;
+    height: 75%;
+    width: 40%;
+    background-color: #333333;
+    border: 3px solid #000;
+    border-style: inset;
+    border-radius: 10px;
+}
+
+.product-form-title{
+    margin: 25px 0px 10px 0px;
+}
+
+.product-form-title h1{
+    margin: 0px;
+}
+
+.product-form-container form{
+    height: 70%;
+    width: 100%;
+}
+
+.product-form-form-container{
+    height: 100%;
+    width: 100%;
+}
+
+.product-form-form-container label{
+    display: flex;
+    align-items: center;
+    height: 10%;
+}
+
+.product-form-form-container input[type="text"], 
+.product-form-form-container input[type="number"]{
+    height: 10%;
+}
+
+.product-form-form-container textarea{
+    resize: none;
+    height: 50%;
+    width: 80%;
+}

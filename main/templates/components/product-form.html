@@ -1,0 +1,22 @@
+<div class="product-form-container">
+    <div class="product-form-title">
+        <h1>
+            {% if action == 'create' %}
+            Create Product
+            {% else %}
+                Edit Product
+            {% endif %}
+        </h1>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="product-form-form-container">
+            <label for="name">Name</label>
+            <input type="text" name="name">
+            <label for="price">Price</label>
+            <input type="number" name="price">
+            <label for="description">Description</label>
+            <textarea name="description"></textarea>
+        </div>
+    </form>
+</div>
