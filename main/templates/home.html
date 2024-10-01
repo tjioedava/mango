@@ -9,13 +9,10 @@
 {% endblock meta %}
 
 {% block content %}
-
-    {% include 'navigation-bar.html' %}
-    
-    <a href="{% url 'main:create-product' %}">Create a Product</a>
-
-    <hr>
-    <div class="products-container">
+    <header>
+        {% include 'navigation-bar.html' with title='Mango E-Commerce' %}
+    </header>   
+    <main>
         <div class="title-container"><h2>Products</h2></div>
         {% if products %}
             <div class="products-grid"> 
@@ -28,12 +25,6 @@
                 <img src="{% static 'images/empty-cardboard.png' %}" alt="Empty Cardboard"/>
                 <p>No product has been created.</p>
             </div>
-        {% endif %}
-    </div>
-
-    <form method="POST" action="{% url 'main:log-out' %}">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
-        
+        {% endif %} 
+    </main>
 {% endblock content %}
