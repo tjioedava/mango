@@ -113,25 +113,20 @@ def log_in(request):
     if request.user.is_authenticated:
         return redirect('main:home')
 
-    form = AuthenticationForm(data = request.POST or None)
-
     if request.method == 'POST':
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None: 
-                login(request, user)
-                #return to the url embedded by login_required decorator or home url
-                response = HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
-                response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
-                return response
-            
-        messages.error(request, 'Empty or incorrect credentials!')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None: 
+            login(request, user)
+            #return to the url embedded by login_required decorator or home url
+            response = redirect(request.GET.get('next', 'main:home'))
+            response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
+            return response
+        else:
+            messages.info('Invalid credentials')
 
-    return render(request, 'log-in.html', {
-        'form': form,
-    })
+    return render(request, 'log-in.html', dict())
 
 @require_http_methods(['POST',])
 def log_out(request):
