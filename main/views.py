@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProductForm
 from .models import Product
+from .utils import validate_user_generation_input
 import datetime
 
 @login_required(login_url='/log-in')
@@ -94,18 +94,22 @@ def show_product_by_id(request, pk):
     return HttpResponse(serialize(format, products), content_type=f'application/{format}')
 
 def register(request):
-    form = UserCreationForm(request.POST or None)
-
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        password_confirmation = request.POST.get('password-confirmation')
+
+        result = validate_user_generation_input(username, password, password_confirmation)
+        #if the valid flag is True:
+        if result[0]:
+            #using create_user method to not store the password in raw (hashing algo.)
+            User.objects.create_user(username=username, password=password)
             return redirect('main:log-in')
         else:
-            ...
-        
-    return render(request, 'register.html', {
-        'form': form,
-    })
+            for message in result[1]:
+                messages.info(request, message)
+
+    return render(request, 'register.html', dict())
 
 def log_in(request):
 
@@ -124,7 +128,7 @@ def log_in(request):
             response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
             return response
         else:
-            messages.info('Invalid credentials')
+            messages.info(request, 'Invalid credentials')
 
     return render(request, 'log-in.html', dict())
 

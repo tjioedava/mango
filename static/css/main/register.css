@@ -1,0 +1,63 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-container{
+    background-color: #1f2937;
+    color: #f2f2f2;
+    height: 60%;
+    width: 25%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-title{
+    margin: 25px 0px 10px 0px;
+}
+
+.register-title h1{
+    margin: 0px;
+}
+
+.register-container form{
+    height: 55%;
+}
+
+.register-form-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+input[type="text"], input[type="password"]{
+    font-size: 16px;
+}
+
+.register-submit{
+    background-color: #384557;
+    border-radius: 2px;
+    width: 50%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.register-submit:hover{
+    background-color: #414e61;
+}
+
+.register-log-in{
+    margin: 10px 0px;
+}
+
+
