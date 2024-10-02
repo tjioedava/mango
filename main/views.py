@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProductForm
 from .models import Product
-from .utils import validate_user_generation_input
+from .utils import validate_product_form_input, validate_user_creation_input
 import datetime
 
 @login_required(login_url='/log-in')
@@ -26,18 +26,19 @@ def home(request):
 
 @login_required(login_url='/log-in')
 def create_product(request):
-    form = ProductForm(request.POST or None) 
-
     if request.method == 'POST':
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.user = request.user
-            product.save()
-            return redirect('main:home')
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        result = validate_product_form_input(name, price, description)
+        if result[0]:
+           Product.objects.create(user=request.user, name=name, price=price, description=description) 
+           return redirect('main:home')
+        
+        for message in result[1]:
+            messages.info(message)
 
-    return render(request, 'create-product.html', {
-        'form': form,
-    })
+    return render(request, 'create-product.html')
 
 @login_required(login_url='/log-in')
 def edit_product(request, pk):
@@ -99,15 +100,15 @@ def register(request):
         password = request.POST.get('password')
         password_confirmation = request.POST.get('password-confirmation')
 
-        result = validate_user_generation_input(username, password, password_confirmation)
+        result = validate_user_creation_input(username, password, password_confirmation)
         #if the valid flag is True:
         if result[0]:
             #using create_user method to not store the password in raw (hashing algo.)
             User.objects.create_user(username=username, password=password)
             return redirect('main:log-in')
-        else:
-            for message in result[1]:
-                messages.info(request, message)
+        
+        for message in result[1]:
+            messages.info(request, message)
 
     return render(request, 'register.html', dict())
 
@@ -127,8 +128,8 @@ def log_in(request):
             response = redirect(request.GET.get('next', 'main:home'))
             response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
             return response
-        else:
-            messages.info(request, 'Invalid credentials')
+        
+        messages.info(request, 'Invalid credentials')
 
     return render(request, 'log-in.html', dict())
 

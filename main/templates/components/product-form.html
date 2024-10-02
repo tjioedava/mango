@@ -2,7 +2,7 @@
     <div class="product-form-title">
         <h1>
             {% if action == 'create' %}
-            Create Product
+                Create Product
             {% else %}
                 Edit Product
             {% endif %}
@@ -17,6 +17,19 @@
             <input type="number" name="price">
             <label for="description">Description</label>
             <textarea name="description"></textarea>
+            <div class="product-form-submit">
+                {% if action == 'create' %}
+                    Create
+                {% else %}
+                    Edit
+                {% endif %}
+            </div>
         </div>
     </form>
 </div>
+
+<script>
+    document.querySelector('.product-form-submit').addEventListener('click', function(){
+        document.querySelector('.product-form-container form').submit();
+    });
+</script>

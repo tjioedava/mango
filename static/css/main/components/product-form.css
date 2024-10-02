@@ -20,7 +20,7 @@ main{
 }
 
 .product-form-title{
-    margin: 25px 0px 10px 0px;
+    margin: 15px 0px 5px 0px;
 }
 
 .product-form-title h1{
@@ -28,7 +28,7 @@ main{
 }
 
 .product-form-container form{
-    height: 70%;
+    height: 80%;
     width: 100%;
 }
 
@@ -50,6 +50,19 @@ main{
 
 .product-form-form-container textarea{
     resize: none;
-    height: 50%;
+    height: 35%;
     width: 80%;
+}
+
+.product-form-submit{
+    margin-top: 2%;
+    height: 13%;
+    width: 20%;
+    background-color: #484848;
+    border-radius: 5px;
+    border: 2px outset black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }

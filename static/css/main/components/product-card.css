@@ -27,24 +27,20 @@
 .product-description > p{
     margin: 2px 0px 0px 0px;
 }
-
 .product-price > h3{
     margin: 5px 0px;
 }
-
 .operation-container{
     width: 100%;
     display: flex;
     justify-content: space-evenly;
 }
-
 .operation-container button{
     width: 50px;
     height: 50px;
     border-radius: 100%;
     background-color: #4caf50
 }
-
 .operation-container button:hover{
     background-color: #388e3c;
 }
