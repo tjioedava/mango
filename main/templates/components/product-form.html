@@ -11,12 +11,21 @@
     <form method="POST">
         {% csrf_token %}
         <div class="product-form-form-container">
-            <label for="name">Name</label>
-            <input type="text" name="name">
-            <label for="price">Price</label>
-            <input type="number" name="price">
-            <label for="description">Description</label>
-            <textarea name="description"></textarea>
+            {% if product %}
+                <label for="name">Name</label>
+                <input type="text" name="name" value="{{ product.name }}">
+                <label for="price">Price</label>
+                <input type="number" name="price" value="{{ product.price }}">
+                <label for="description">Description</label>
+                <textarea name="description">{{ product.description }}</textarea>
+            {% else %}
+                <label for="name">Name</label>
+                <input type="text" name="name">
+                <label for="price">Price</label>
+                <input type="number" name="price">
+                <label for="description">Description</label>
+                <textarea name="description"></textarea>
+            {% endif %}
             <div class="product-form-submit">
                 {% if action == 'create' %}
                     Create

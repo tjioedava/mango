@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ProductForm
 from .models import Product
 from .utils import validate_product_form_input, validate_user_creation_input
 import datetime
@@ -46,15 +45,23 @@ def edit_product(request, pk):
     if len(products) == 0:
         return HttpResponseNotFound()
     product = products[0]
-    form = ProductForm(request.POST or None, instance=product)
 
     if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        result = validate_product_form_input(name, price, description)
+        if result[0]:
+            product.name = name
+            product.price = price
+            product.description = description
+            product.save()
             return redirect('main:home')
+        for message in result[1]:
+            messages.info(message)
 
     return render(request, 'edit-product.html', {
-        'form': form,
+        'product': product,
     })
 
 @require_http_methods(['POST',])

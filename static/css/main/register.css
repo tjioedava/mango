@@ -15,6 +15,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 2px outset #1f2937;
 }
 
 .register-title{
@@ -58,6 +59,12 @@ input[type="text"], input[type="password"]{
 
 .register-log-in{
     margin: 10px 0px;
+}
+.register-log-in a{
+    color: rgb(42, 175, 175);
+}
+.register-log-in a:visited{
+    color: rgb(42, 175, 175);
 }
 
 

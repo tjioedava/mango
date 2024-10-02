@@ -19,12 +19,21 @@
                 {% for product in products %}
                     {% include 'components/product-card.html' with product=product %} 
                 {% endfor %}
+                <div class="create-product-existent" data-href="{% url 'main:create-product' %}">+</div>
             </div>
         {% else %}
             <div class="no-product">
                 <img src="{% static 'images/empty-cardboard.png' %}" alt="Empty Cardboard"/>
                 <p>No product has been created.</p>
+                <a href="{% url 'main:create-product' %}"><div class="create-product-empty">Create Product</div></a>
             </div>
         {% endif %} 
     </main>
+    <script>
+        var createProductExistentButton = document.querySelector('.create-product-existent');
+        var target = createProductExistentButton.getAttribute('data-href')
+        createProductExistentButton.addEventListener('click', function(){
+            window.location.href = target;
+        });
+    </script>
 {% endblock content %}

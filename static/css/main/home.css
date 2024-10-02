@@ -1,15 +1,15 @@
 main{
-    background-color: #edd377;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .products-grid, .no-product{
-    background-color: #ffedbd;
+    background-color: #dadada;
     border-radius: 10px;
     width: 96%;
     margin: 0% 2% 2% 2%;
+    border: 3px inset #dfdfdf;
 }
 
 .products-grid{
@@ -26,4 +26,44 @@ main{
 .no-product img{
     height: 150px;
     width: 150px;
+}
+.no-product a{
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.create-product-empty{
+    height: 50px;
+    width: 150px;
+    background-color: #555555;
+    border-radius: 5px;
+    border: 2px outset #444444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-product-empty:hover{
+    background-color: #777777;
+}
+
+.create-product-existent{
+    margin: 30px;
+    background-color: #777777;
+    border-radius: 5px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px outset #333333;
+    font-size: 150px;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.create-product-existent:hover{
+    background-color: #808080;
 }

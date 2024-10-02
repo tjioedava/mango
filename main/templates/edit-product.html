@@ -12,6 +12,6 @@
         {% include 'components/navigation-bar.html' with title='Edit Product' %}
     </header>
     <main>
-        {% include 'components/product-form.html' with action='edit' %}
+        {% include 'components/product-form.html' with action='edit' product=product %}
     </main>
 {% endblock content %}
