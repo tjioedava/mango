@@ -18,7 +18,7 @@
 
 5. How do I do each step?
    1) For product edit and deletion functionality, I simply just defined a new routing that leads to function handler that performs necessary task, either deleting a product passed in parameter or edit sent product through form.
-   2) For styling implementation, I just use raw CSS, accesible from static files
+   2) For styling implementation, I just use raw CSS, accesible from static files.
  
 
 

@@ -12,16 +12,7 @@ import datetime
 
 @login_required(login_url='/log-in')
 def home(request):
-    products = Product.objects.filter(user=request.user)
-
-    last_log_in = request.COOKIES['last_log_in']
-    point_index = last_log_in.find('.')
-    last_log_in = last_log_in[0: point_index]
-
-    return render(request, 'home.html', {
-        'last_log_in': last_log_in,
-        'products': products,
-    })
+    return render(request, 'home.html', dict())
 
 @login_required(login_url='/log-in')
 def create_product(request):
@@ -35,7 +26,7 @@ def create_product(request):
            return redirect('main:home')
         
         for message in result[1]:
-            messages.info(message)
+            messages.info(request, message)
 
     return render(request, 'create-product.html')
 
@@ -58,7 +49,7 @@ def edit_product(request, pk):
             product.save()
             return redirect('main:home')
         for message in result[1]:
-            messages.info(message)
+            messages.info(request, message)
 
     return render(request, 'edit-product.html', {
         'product': product,

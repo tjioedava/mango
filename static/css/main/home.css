@@ -4,11 +4,15 @@ main{
     align-items: center;
 }
 
+.products{
+    width: 96%;
+    margin: 0% 2% 2% 2%;
+}
+
 .products-grid, .no-product{
     background-color: #dadada;
     border-radius: 10px;
-    width: 96%;
-    margin: 0% 2% 2% 2%;
+    width: 100%;
     border: 3px inset #dfdfdf;
 }
 
