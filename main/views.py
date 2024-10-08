@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
@@ -9,6 +9,7 @@ from django.contrib import messages
 from .models import Product
 from .utils import validate_product_form_input, validate_user_creation_input
 import datetime
+import json
 
 @login_required(login_url='/log-in')
 def home(request):
@@ -29,6 +30,24 @@ def create_product(request):
             messages.info(request, message)
 
     return render(request, 'create-product.html')
+
+@require_http_methods(['POST',])
+def create_product_ajax(request):
+    
+    data = json.loads(request.body.decode('utf-8'))
+
+    name = data.get('name')
+    price = data.get('price')
+    description = data.get('description')
+    
+    result = validate_product_form_input(name, price, description)
+
+    if result[0]:
+        Product.objects.create(user=request.user, name=name, price=price, description=description)
+        return HttpResponse('SUCCESS', status=201)
+    else:
+        return HttpResponseBadRequest()
+
 
 @login_required(login_url='/log-in')
 def edit_product(request, pk):

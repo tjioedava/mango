@@ -14,32 +14,52 @@
         {% include 'components/navigation-bar.html' with title='Mango E-Commerce' %}
     </header>   
     <main>
-        <div class="title-container"><h2>Products</h2></div>
+        <div class="title-container"><h1>Products</h1></div>
+        <div class="control-panel">
+            <div class="create-product" data-href="{% url 'main:create-product' %}">Create Product</div>
+            <div class="create-product-ajax">Create Product with AJAX</div>
+        </div>
         <div class="products"></div>
+        <div class="modal flex flex-col hidden items-center w-96 h-96 top-28 shadow-lg bg-gray-400 rounded-lg">
+            <h1 class="my-4 font-bold text-xl">Create Product AJAX</h1>
+            <input type="text" name="name" placeholder="name" class="modal-name mb-4 h-10 w-80 rounded">
+            <input type="number" name="price" placeholder="price" class="modal-price mb-4 h-10 w-80 rounded">
+            <textarea name="description" placeholder="product's description" class="modal-description mb-4 h-32 w-80 resize-none rounded"></textarea>
+            <div class="modal-submit flex justify-center items-center bg-gray-700 hover:bg-gray-600 h-12 w-32 rounded-lg text-white select-none cursor-pointer">
+                Create Product
+            </div>
+        </div>
     </main>
     <script>
+        const modal = document.querySelector('.modal');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+        const modalSubmit = document.querySelector('.modal-submit');
+        const modalName = document.querySelector('.modal-name');
+        const modalPrice = document.querySelector('.modal-price');
+        const modalDescription = document.querySelector('.modal-description');
+
         async function getProducts(){
             let response = await fetch("/show-products");
             return response.json();
         }
-        var innerHTMLString = ""
-        getProducts().then((products) => {
+        async function refreshProducts(){
+            var innerHTMLString = ""
+            var products = await getProducts()
             if (products.length == 0){
                 innerHTMLString += `
                 <div class="no-product">
                     <img src="static/images/empty-cardboard.png" alt="Empty Cardboard"/>
                     <p>No product has been created.</p>
-                    <a href="/create-product"><div class="create-product-empty">Create Product</div></a>
                 </div>`
             } else{
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
                 innerHTMLString += `<div class="products-grid">`
                 products.forEach((product) => {
                     innerHTMLString += `
                     <div class="product-card">
                         <div class="inner-container">
                             <div class="product-name">
-                                <h2>${product.fields.name}</h2>
+                                <h1>${product.fields.name}</h1>
                             </div>
                             <div class="product-description">
                                 <p>${product.fields.description}</p>
@@ -59,15 +79,64 @@
                         </div>
                     </div>`
                 });
-                innerHTMLString += `<div class="create-product-existent" data-href="/create-product">+</div></div>`
+                innerHTMLString += `</div>`
             }
             document.querySelector('.products').innerHTML = innerHTMLString;
-            const createProductExistentButton = document.querySelector('.create-product-existent');
-            if (createProductExistentButton){
-                createProductExistentButton.addEventListener('click', () => {
-                    window.location.href = '/create-product';
-                });
+        }
+
+        function showModal(){
+            modal.classList.remove('hidden');
+            modal.classList.add('absolute');
+        }
+        function hideModal(){
+            modal.classList.remove('absolute');
+            modal.classList.add('hidden');
+        }
+
+        function clearModal(){
+            modalName.value = '';
+            modalPrice.value = '';
+            modalDescription.value = '';
+        }
+
+        const createProductButton = document.querySelector('.create-product');
+        createProductButton.addEventListener('click', () => {
+            window.location.href = createProductButton.getAttribute('data-href');
+        });
+        const createProductButtonAjax = document.querySelector('.create-product-ajax');
+        createProductButtonAjax.addEventListener('click', () => {
+            showModal();
+        });
+
+        document.querySelector('body').addEventListener('click', (event) => {
+            if (!modal.contains(event.target) && event.target != createProductButtonAjax){
+                hideModal();
             }
-        }).catch();
+        });
+
+        modalSubmit.addEventListener('click', async function(){
+            const response = await fetch('/create-product-ajax', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({
+                    name: modalName.value,
+                    price: modalPrice.value,
+                    description: modalDescription.value,
+                })
+            });
+            if (response.status == 201){
+                hideModal();
+                clearModal();
+                refreshProducts();
+            }
+            else{
+                //TODO
+            }
+        });
+
+        refreshProducts();
     </script>
 {% endblock content %}

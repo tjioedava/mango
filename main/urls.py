@@ -8,6 +8,7 @@ urlpatterns = [
     path('', lambda request: redirect('main:home'), name='default'),
     path('home', home, name='home'),
     path('create-product', create_product, name='create-product'),
+    path('create-product-ajax', create_product_ajax, name='create-product-ajax'),
     path('edit-product/<uuid:pk>', edit_product, name='edit-product'),
     path('delete-product/<uuid:pk>', delete_product, name='delete-product'),
     path('show-products', show_products, name='show-products'),
