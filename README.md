@@ -9,3 +9,4 @@
 
 > [Assignment 5](docs/ASSIGNMENT5.md)
 
+> [Assignment 6](docs/ASSIGNMENT6.md)

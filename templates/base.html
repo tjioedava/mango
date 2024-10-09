@@ -2,30 +2,60 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/19ef3fcdaf.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/global.css' %}">
-    
-    <title>Mango</title>
+        <script src="https://kit.fontawesome.com/19ef3fcdaf.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css">
+        <link rel="stylesheet" href="{% static 'css/global.css' %}">
+        
+        <title>Mango</title>
 
-    {% block meta %}
-    {% endblock meta %}
-</head>
-<body>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% block content %}
-    {% endblock content %}
-</body>
+        {% block meta %}
+        {% endblock meta %}
+    </head>
+    <body>
+        {% for message in messages %}
+            <div class="message-{{ message.level_tag }} hidden" data-message="{{ message }}"></div>
+        {% endfor %}
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+            toastr.options = {
+                "closeButton": true,             
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true, 
+                "positionClass": "toast-top-center", 
+                "preventDuplicates": false,      
+                "showDuration": "300",          
+                "hideDuration": "1000",
+                "timeOut": "7000",      
+                "extendedTimeOut": "1000",        
+                "showEasing": "swing",            
+                "hideEasing": "linear",           
+                "showMethod": "fadeIn",           
+                "hideMethod": "fadeOut"           
+            };
+            document.querySelectorAll('.message-info').forEach((messageElement) => {
+                toastr.info(messageElement.getAttribute('data-message'));
+            });
+            document.querySelectorAll('.message-error').forEach((messageElement) => {
+                toastr.error(messageElement.getAttribute('data-message'));
+            });
+            document.querySelectorAll('.message-success').forEach((messageElement) => {
+                toastr.success(messageElement.getAttribute('data-message'));
+            });
+            document.querySelectorAll('.message-warning').forEach((messageElement) => {
+                toastr.warning(messageElement.getAttribute('data-message'));
+            });
+        </script>
+        {% block content %}
+        {% endblock content %}
+    </body>
 </html>

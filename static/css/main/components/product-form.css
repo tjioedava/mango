@@ -46,12 +46,14 @@ main{
 .product-form-form-container input[type="text"], 
 .product-form-form-container input[type="number"]{
     height: 10%;
+    color: black;
 }
 
 .product-form-form-container textarea{
     resize: none;
     height: 35%;
     width: 80%;
+    color: black;
 }
 
 .product-form-submit{

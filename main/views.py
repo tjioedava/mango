@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.html import strip_tags
 from .models import Product
 from .utils import validate_product_form_input, validate_user_creation_input
 import datetime
@@ -18,16 +19,18 @@ def home(request):
 @login_required(login_url='/log-in')
 def create_product(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = strip_tags(request.POST.get('name'))
         price = request.POST.get('price')
-        description = request.POST.get('description')
+        description = strip_tags(request.POST.get('description'))
+
         result = validate_product_form_input(name, price, description)
         if result[0]:
            Product.objects.create(user=request.user, name=name, price=price, description=description) 
+           messages.success(request, 'Product created successfully')
            return redirect('main:home')
         
         for message in result[1]:
-            messages.info(request, message)
+            messages.error(request, message)
 
     return render(request, 'create-product.html')
 
@@ -36,17 +39,20 @@ def create_product_ajax(request):
     
     data = json.loads(request.body.decode('utf-8'))
 
-    name = data.get('name')
+    name = strip_tags(data.get('name'))
     price = data.get('price')
-    description = data.get('description')
+    description = strip_tags(data.get('description'))
     
     result = validate_product_form_input(name, price, description)
 
     if result[0]:
         Product.objects.create(user=request.user, name=name, price=price, description=description)
-        return HttpResponse('SUCCESS', status=201)
-    else:
-        return HttpResponseBadRequest()
+        messages.success(request, 'Product created successfully')
+    for message in result[1]:
+        messages.error(request, message)
+    
+    messages_response = [{'level_tag': message.level_tag, 'message': message.message} for message in list(messages.get_messages(request))]
+    return JsonResponse({'success': result[0], 'messages': messages_response})
 
 
 @login_required(login_url='/log-in')
@@ -57,15 +63,16 @@ def edit_product(request, pk):
     product = products[0]
 
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = strip_tags(request.POST.get('name'))
         price = request.POST.get('price')
-        description = request.POST.get('description')
+        description = strip_tags(request.POST.get('description'))
         result = validate_product_form_input(name, price, description)
         if result[0]:
             product.name = name
             product.price = price
             product.description = description
             product.save()
+            messages.success(request, 'Product edited successfully')
             return redirect('main:home')
         for message in result[1]:
             messages.info(request, message)
@@ -83,6 +90,7 @@ def delete_product(request, pk):
     product = products[0]
 
     product.delete()
+    messages.success(request, 'Product deleted successfully')
     return redirect('main:home')
 
 @login_required(login_url='/log-in')
@@ -122,10 +130,11 @@ def register(request):
         if result[0]:
             #using create_user method to not store the password in raw (hashing algo.)
             User.objects.create_user(username=username, password=password)
+            messages.success(request, 'Account registered successfully')
             return redirect('main:log-in')
         
         for message in result[1]:
-            messages.info(request, message)
+            messages.error(request, message)
 
     return render(request, 'register.html', dict())
 
@@ -144,9 +153,10 @@ def log_in(request):
             #return to the url embedded by login_required decorator or home url
             response = redirect(request.GET.get('next', 'main:home'))
             response.set_cookie('last_log_in', datetime.datetime.now(), 60 * 60 * 24 * 7)
+            messages.success(request, 'Successfully logged in')
             return response
         
-        messages.info(request, 'Invalid credentials')
+        messages.error(request, 'Invalid credentials')
 
     return render(request, 'log-in.html', dict())
 
@@ -155,4 +165,5 @@ def log_out(request):
     logout(request)
     response = redirect('main:log-in')
     response.delete_cookie('last_log_in')
+    messages.success(request, 'Successfully logged out')
     return response
