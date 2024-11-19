@@ -22,7 +22,6 @@
         {% for message in messages %}
             <div class="message-{{ message.level_tag }} hidden" data-message="{{ message }}"></div>
         {% endfor %}
-        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
@@ -55,6 +54,7 @@
                 toastr.warning(messageElement.getAttribute('data-message'));
             });
         </script>
+        
         {% block content %}
         {% endblock content %}
     </body>
