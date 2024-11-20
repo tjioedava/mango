@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -167,3 +168,21 @@ def log_out(request):
     response.delete_cookie('last_log_in')
     messages.success(request, 'Successfully logged out')
     return response
+
+@csrf_exempt
+def create_product_mobile(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        product = Product.objects.create(
+            name=data["name"],
+            user=request.user,
+            price= int(data["price"]),
+            description=data["description"],
+        )
+
+        product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)

@@ -16,4 +16,5 @@ urlpatterns = [
     path('register', register, name='register'),
     path('log-in', log_in, name='log-in'),
     path('log-out', log_out, name='log-out'),
+    path('create-product-mobile', create_product_mobile, name='create-product-mobile'),
 ]
