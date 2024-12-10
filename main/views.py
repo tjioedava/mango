@@ -101,8 +101,17 @@ def show_products(request):
 
     if format not in ['json', 'xml']:
         return HttpResponseNotFound()
+    
+    own = request.GET.get('own', 'true')
 
-    products = Product.objects.filter(user=request.user)
+    if own not in ['true', 'false']:
+        return HttpResponseNotFound()
+    
+    if own == 'true':
+        products = Product.objects.filter(user=request.user)
+    else: 
+        products = Product.objects.all()
+    
     return HttpResponse(serialize(format, products), content_type=f'application/{format}')
 
 @login_required(login_url='/log-in')
